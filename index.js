@@ -126,7 +126,7 @@ console.log(`Оценки по предмету ${valueSub}:`);
 if (subMark.length > 0) {
     subMark.forEach(mark => console.log(mark.mark));
 } else {
-    console.log(`Нет оценок по предмету ${valSub}`);
+    console.log(`Нет оценок по предмету ${valueSub}`);
 }
 
 //удаление оценок 
