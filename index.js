@@ -51,7 +51,7 @@ class Student {
     }
     getAverageMark() {
         if (this.marks.length === 0) {
-            return null; // Если нет оценок, возвращаем null
+            return "У ${this.firstname} нет оценок"; // Если нет оценок, возвращаем null
         }
         let sum = 0;
         for (const mark of this.marks) {
@@ -80,11 +80,43 @@ class Student {
 class Mark {
     constructor(subject, mark) {
         this.subject = subject;
-        this.mark = mark;
+        try {
+            if (mark >= 2 && mark <= 5) {
+                this.mark = mark;
+            }
+            else {
+                console.log(`Некорректный ввод оценки. Пожалуйста, повторите: `);
+                alert(`Некорректный ввод оценки. Пожалуйста, повторите: `);
+                let s2 = prompt("Введите оценку:");
+                while (s2 < 2 || s2 > 5 || this.isNumber(s2) == false) {
+                    console.log(`Оценка по предмету ${subject} не попадает в диапазон [2,5]. Повторите ввод: `);
+                    alert(`Оценка по предмету ${subject} не попадает в диапазон [2,5]. Повторите ввод: `);
+                    s2 = prompt("Введите оценку:");
+                }
+                this.mark = s2;
+            }
+        }
+        catch (e)
+        {
+            console.log(`Некорректный ввод оценки. Пожалуйста, повторите: `);
+            alert(`Некорректный ввод оценки. Пожалуйста, повторите: `);
+            let s2 = prompt("Введите оценку:");
+            while (s2 < 2 || s2 > 5 || this.isNumber(s2) == false) {
+                console.log(`Некорректный ввод оценки. Пожалуйста, повторите: `);
+                alert(`Некорректный ввод оценки. Пожалуйста, повторите: `);
+                s2 = prompt("Введите оценку:");
+            }
+            this.mark = s2;
+        }
     }
 
     printMark() {
         console.log(`${this.subject}: ${this.mark}`);
+    }
+
+    isNumber(str)
+    {
+    return !isNaN(parseFloat(str)) && isFinite(str);
     }
 }
 
@@ -100,24 +132,28 @@ let value = prompt("Введите оценку:");
 const mark = new Mark(sub, parseFloat(value));
 const user = new Student(full, name, [mark]);
 
+console.log(" ");
 console.log(`Фамилия: ${user.lastname}`);
 console.log(`Имя: ${user.firstname}`);
 console.log("Оценки:");
 user.marks.forEach(mark => {
     console.log(`${mark.subject}: ${mark.mark}`);
 });
+console.log(" ");
 
 //средний балл 
 console.log(`Средний балл по всем предметам: ${user.getAverageMark()}`);
+console.log(" ");
 
-//добавление оценки
+//добавление оценки с помощью метода 
 let a = prompt("Введите предмет:");
 let b = prompt("Введите оценку:");
 user.AddMark(a, b);
-console.log("Оценки:");
+console.log("Новые оценки:");
 user.marks.forEach(mark => {
     console.log(`${mark.subject}: ${mark.mark}`);
 });
+console.log(" ");
 
 //узнаём оценки 
 let valueSub = prompt("Введите предмет, оценки по которому хотите узнать:");
@@ -128,11 +164,12 @@ if (subMark.length > 0) {
 } else {
     console.log(`Нет оценок по предмету ${valueSub}`);
 }
+console.log(" ");
 
 //удаление оценок 
 valueSub = prompt("Введите предмет, оценки по которому хотите удалить:");
 subMark = user.DeleteMarks(valueSub);
-console.log("Оценки:");
+console.log("Оценки после удаления:");
 user.marks.forEach(mark => {
     console.log(`${mark.subject}: ${mark.mark}`);
 });
